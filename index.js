@@ -1,5 +1,6 @@
 const { readTasks, writeTasks } = require('./tasks');
 const [,, cmd] = process.argv;
+const title = process.argv.slice(3).join(' ');
 
 if(!cmd){
     console.log('TaskMaster CLI - usa: node index.js <comando>')
@@ -16,4 +17,15 @@ if(cmd === 'list'){
         });
     }
 
+}
+
+if(cmd === 'add'){
+    if(!title){
+        console.log('Uso: node index.js add <titulo>');
+        process.exit(1);
+    }
+    const tasks = readTasks();
+    tasks.push({ id: Date.now(), title, done: false });
+    writeTasks(tasks);
+    console.log(` Tarea "\${title}" agregada.`);
 }
